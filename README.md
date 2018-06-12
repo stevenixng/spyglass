@@ -4,14 +4,20 @@ spyglass
 setup
 -----
 
-`virtualenv venv`
+`$ git clone https://gitlab.com/stevenix/spyglass`
 
-`pip install -r requirements.txt`
+`$ cd spyglass`
 
-`source venv/bin/activate`
+`$ virtualenv venv`
 
-`export FLASK_APP=spyglass.py`
+`$ pip install -r requirements.txt`
 
-`flask run`
+`$ source venv/bin/activate`
+
+`$ export FLASK_APP=spyglass.py`
+
+`$ flask run`
+
+Or if you want to run with debug mode on.
 
 `FLASK_DEBUG=1 flask run`
