@@ -1,0 +1,10 @@
+{% extends "layout.html" %}
+{% block body %}
+  <h1>enter ip:</h1>
+<form action="/analyze" method="post" maxlength="15">
+    {{ form.csrf_token }}
+    {{ form.ipaddress}}
+    <input type="submit" value="Go">
+</form>
+{% endblock %}
+
