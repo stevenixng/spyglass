@@ -16,14 +16,14 @@ class IPAddressForm(FlaskForm):
 def retrieve_asn(ipaddress):
     obj = IPWhois(ipaddress)
     results = obj.lookup_rdap()
-    #pprint.pprint(results)
+    pprint.pprint(results)
     return results
 
 @app.route('/')
 def index():
     form = IPAddressForm()
-    #form.ipaddress.data = '8.8.8.8'
-    form.ipaddress.data = request.environ['REMOTE_ADDR']
+    form.ipaddress.data = '8.8.8.8'
+    #form.ipaddress.data = request.environ['REMOTE_ADDR']
 
     return render_template('index.html', form=form)
 
@@ -44,9 +44,10 @@ def analyze():
         asn_data = retrieve_asn(ipaddress)
         asn = asn_data['asn']
         asn_cidr = asn_data['asn_cidr']
-        #asn_name = asn_data['network']['name']
         asn_description = asn_data['asn_description']
-        
+        network_handle = asn_data['network']['handle']
+        network_name = asn_data['network']['name']
+        asn_country_code = asn_data['asn_country_code']
     else:
         flash('Not a valid IPv4 Address')
 
@@ -54,5 +55,8 @@ def analyze():
             ipaddress=ipaddress,
             asn=asn,
             asn_cidr=asn_cidr,
+            network_handle=network_handle,
+            network_name=network_name,
             asn_description=asn_description,
+            asn_country_code=asn_country_code,
             form=form)
