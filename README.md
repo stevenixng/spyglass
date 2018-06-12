@@ -11,3 +11,5 @@ setup
 `export FLASK_APP=spyglass.py`
 
 `flask run`
+
+`FLASK_DEBUG=1 flask run`
