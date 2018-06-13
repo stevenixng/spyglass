@@ -50,8 +50,12 @@
       <table class="blacklists">
       {% for key, value in blacklists.items() %}
       <tr>
-        <td class="blacklist"> {{ key }}</td>
-        <td class="bl_value"> {{ value }}</td>
+        <td class="blacklist">{{ key }}</td>
+        <td class="bl_value">
+          <span class="badge badge-success">
+            {{ value }}
+          </span>
+        </td>
       </tr>
       {% endfor %}
       </table>
