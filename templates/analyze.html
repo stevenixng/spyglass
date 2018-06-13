@@ -11,6 +11,15 @@
 IP: {{ ipaddress }}</br>
 ASN: {{ asn }}</br>
 CIDR: {{ asn_cidr }}</br>
+HANDLE: {{ network_handle }}</br>
+NAME: {{ network_name }}</br>
 DESCRIPTION: {{ asn_description }}</br>
+COUNTRY: {{ asn_country_code }}</br>
+
+<h1>blacklists</h1>
+{% for key, value in blacklists.items() %}
+    blacklist: {{ key }}</br>
+    value: {{ value }}</br>
+{% endfor %}
 
 {% endblock %}
