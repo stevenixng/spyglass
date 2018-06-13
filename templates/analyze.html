@@ -8,18 +8,45 @@
     <input type="submit" value="Go">
 
 <h1>info</h1>
-IP: {{ ipaddress }}</br>
-ASN: {{ asn }}</br>
-CIDR: {{ asn_cidr }}</br>
-HANDLE: {{ network_handle }}</br>
-NAME: {{ network_name }}</br>
-DESCRIPTION: {{ asn_description }}</br>
-COUNTRY: {{ asn_country_code }}</br>
+<table class="info">
+<tr>
+    <td>IP</td>
+    <td >{{ ipaddress }}</td>
+</tr>
+<tr>
+    <td>ASN</td>
+    <td>{{ asn }}</td>
+</tr>
+<tr>
+    <td>CIDR</td>
+    <td>{{ asn_cidr }}</td>
+</tr>
+<tr>
+    <td>HANDLE</td>
+    <td>{{ network_handle }}</td>
+</tr>
+<tr>
+    <td>NAME</td>
+    <td>{{ network_name }}</td>
+</tr>
+<tr>
+    <td>DESCRIPTION</td>
+    <td>{{ asn_description }}</td>
+</tr>
+<tr>
+    <td>COUNTRY</td>
+    <td>{{ asn_country_code }}</td>
+</tr>
+</table>
+
 
 <h1>blacklists</h1>
+<table class="blacklists">
 {% for key, value in blacklists.items() %}
-    blacklist: {{ key }}</br>
-    value: {{ value }}</br>
+<tr>
+    <td class="blacklist"> {{ key }}</td>
+    <td class="bl_value"> {{ value }}</td>
+</tr>
 {% endfor %}
-
+</table>
 {% endblock %}
