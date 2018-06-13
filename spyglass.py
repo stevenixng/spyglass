@@ -85,25 +85,26 @@ def analyze():
     if form.validate_on_submit():
         #flash("IP is valid")
         ipaddress = form.ipaddress.data
-        asn_data = retrieve_asn(ipaddress)
-        asn = asn_data['asn']
-        asn_cidr = asn_data['asn_cidr']
-        asn_description = asn_data['asn_description']
-        network_handle = asn_data['network']['handle']
-        network_name = asn_data['network']['name']
-        asn_country_code = asn_data['asn_country_code']
-        blacklists = get_blacklists(ipaddress)
-        geoip_dict = get_geoip(ipaddress)
-        geo_continent = geoip_dict['geoplugin_continentName']
-        geo_country = geoip_dict['geoplugin_countryName']
-        geo_city = geoip_dict['geoplugin_city']
-        geo_latitude = geoip_dict['geoplugin_latitude']
-        geo_longitude = geoip_dict['geoplugin_longitude']
-        pprint.pprint(geoip_dict)
-        #print(blacklists)
-        
     else:
         flash('Not a valid IPv4 Address')
+        return render_template('index.html', form=form)
+
+    asn_data = retrieve_asn(ipaddress)
+    asn = asn_data['asn']
+    asn_cidr = asn_data['asn_cidr']
+    asn_description = asn_data['asn_description']
+    network_handle = asn_data['network']['handle']
+    network_name = asn_data['network']['name']
+    asn_country_code = asn_data['asn_country_code']
+    blacklists = get_blacklists(ipaddress)
+    geoip_dict = get_geoip(ipaddress)
+    geo_continent = geoip_dict['geoplugin_continentName']
+    geo_country = geoip_dict['geoplugin_countryName']
+    geo_city = geoip_dict['geoplugin_city']
+    geo_latitude = geoip_dict['geoplugin_latitude']
+    geo_longitude = geoip_dict['geoplugin_longitude']
+    #pprint.pprint(geoip_dict)
+    #print(blacklists)
 
     return render_template('analyze.html',
             ipaddress=ipaddress,
