@@ -52,9 +52,16 @@
       <tr>
         <td class="blacklist">{{ key }}</td>
         <td class="bl_value">
+        {% if value == True %}
+          <span class="badge badge-danger">
+            {{ value }}
+          </span>
+        {% endif %}
+        {% if value == False %}
           <span class="badge badge-success">
             {{ value }}
           </span>
+        {% endif %}
         </td>
       </tr>
       {% endfor %}
