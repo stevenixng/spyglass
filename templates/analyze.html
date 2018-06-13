@@ -1,82 +1,94 @@
 {% extends "layout.html" %}
 
 {% block body %}
+<div class="container" style="margin-top:30px">
+  <div class="row">
+    <div class="col-sm">
+      <h2>enter ip:</h2>
+      <form action="/analyze" method="post" maxlength="15">
+      {{ form.csrf_token }}
+      {{ form.ipaddress}}
+      <input type="submit" value="Go">
+    </div>
 
-<h1>enter ip:</h1>
-<form action="/analyze" method="post" maxlength="15">
-    {{ form.csrf_token }}
-    {{ form.ipaddress}}
-    <input type="submit" value="Go">
+    <div class="col-sm">
+      <h2>info</h2>
+      <table class="info">
+      <tr>
+        <td>IP</td>
+        <td>{{ ipaddress }}</td>
+      </tr>
+      <tr>
+        <td>ASN</td>
+        <td>{{ asn }}</td>
+      </tr>
+      <tr>
+        <td>CIDR</td>
+        <td>{{ asn_cidr }}</td>
+      </tr>
+      <tr>
+        <td>HANDLE</td>
+        <td>{{ network_handle }}</td>
+      </tr>
+      <tr>
+        <td>NAME</td>
+        <td>{{ network_name }}</td>
+      </tr>
+      <tr>
+        <td>DESCRIPTION</td>
+        <td>{{ asn_description }}</td>
+      </tr>
+      <tr>
+        <td>COUNTRY</td>
+        <td>{{ asn_country_code }}</td>
+      </tr>
+      </table>
+    </div>
 
-<h1>info</h1>
-<table class="info">
-<tr>
-    <td>IP</td>
-    <td>{{ ipaddress }}</td>
-</tr>
-<tr>
-    <td>ASN</td>
-    <td>{{ asn }}</td>
-</tr>
-<tr>
-    <td>CIDR</td>
-    <td>{{ asn_cidr }}</td>
-</tr>
-<tr>
-    <td>HANDLE</td>
-    <td>{{ network_handle }}</td>
-</tr>
-<tr>
-    <td>NAME</td>
-    <td>{{ network_name }}</td>
-</tr>
-<tr>
-    <td>DESCRIPTION</td>
-    <td>{{ asn_description }}</td>
-</tr>
-<tr>
-    <td>COUNTRY</td>
-    <td>{{ asn_country_code }}</td>
-</tr>
-</table>
+    <div class="col-sm">
+      <h2>blacklists</h2>
+      <table class="blacklists">
+      {% for key, value in blacklists.items() %}
+      <tr>
+        <td class="blacklist"> {{ key }}</td>
+        <td class="bl_value"> {{ value }}</td>
+      </tr>
+      {% endfor %}
+      </table>
+    </div>
+  </div>
 
+  <div class="row">
+    <div class="col-sm">
+      <h1>location</h1>
+      <table class="location">
+      <tr>
+        <td>CONTINENT</td>
+        <td>{{ geo_continent }}</td>
+      </tr>
+      <tr>
+        <td>COUNTRY</td>
+        <td>{{ geo_country }}</td>
+      </tr>
+      <tr>
+        <td>CITY</td>
+        <td>{{ geo_city}}</td>
+      </tr>
+      <tr>
+        <td>LATITUDE</td>
+        <td>{{ geo_latitude}}</td>
+      </tr>
+      <tr>
+        <td>LONGITUDE</td>
+        <td>{{ geo_longitude}}</td>
+      </tr>
+      </table>
+    </div>
 
-<h1>blacklists</h1>
-<table class="blacklists">
-{% for key, value in blacklists.items() %}
-<tr>
-    <td class="blacklist"> {{ key }}</td>
-    <td class="bl_value"> {{ value }}</td>
-</tr>
-{% endfor %}
-</table>
-
-<h1>location</h1>
-<table class="location">
-<tr>
-    <td>CONTINENT</td>
-    <td>{{ geo_continent }}</td>
-</tr>
-<tr>
-    <td>COUNTRY</td>
-    <td>{{ geo_country }}</td>
-</tr>
-<tr>
-    <td>CITY</td>
-    <td>{{ geo_city}}</td>
-</tr>
-<tr>
-    <td>LATITUDE</td>
-    <td>{{ geo_latitude}}</td>
-</tr>
-<tr>
-    <td>LONGITUDE</td>
-    <td>{{ geo_longitude}}</td>
-</tr>
-</table>
-
-<h1>map</h1>
-<iframe src="http://maps.google.com/maps?q={{ geo_latitude }}, {{ geo_longitude }}&z=10&output=embed" width="360" height="270" frameborder="0" style="border:0"></iframe>
+    <div class="col-sm">
+      <h1>map</h1>
+      <iframe src="http://maps.google.com/maps?q={{ geo_latitude }}, {{ geo_longitude }}&z=10&output=embed" width="360" height="270" frameborder="0" style="border:0"></iframe>
+    </div>
 
 
 {% include "footer.html" %}
