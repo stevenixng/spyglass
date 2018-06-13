@@ -5,6 +5,8 @@ from wtforms.validators import IPAddress
 from ipwhois import IPWhois
 import dns.resolver
 import pprint
+import requests
+import json
 
 
 app = Flask(__name__)
@@ -19,6 +21,7 @@ def retrieve_asn(ipaddress):
     results = obj.lookup_rdap()
     #pprint.pprint(results)
     return results
+
 
 def get_blacklists(ipaddress):
     bl_list = ['zen.spamhaus.org',
@@ -52,6 +55,14 @@ def get_blacklists(ipaddress):
             print(error)
     return bl_dict
 
+
+def get_geoip(ipaddress):
+    url = 'http://www.geoplugin.net/json.gp?ip=' + ipaddress
+    response = requests.request('GET', url)
+    
+    return response.json()
+
+
 @app.route('/')
 def index():
     form = IPAddressForm()
@@ -82,7 +93,13 @@ def analyze():
         network_name = asn_data['network']['name']
         asn_country_code = asn_data['asn_country_code']
         blacklists = get_blacklists(ipaddress)
-        print(blacklists)
+        geoip_dict = get_geoip(ipaddress)
+        geo_continent = geoip_dict['geoplugin_continentName']
+        geo_country = geoip_dict['geoplugin_countryName']
+        geo_city = geoip_dict['geoplugin_city']
+        geo_latitude = geoip_dict['geoplugin_latitude']
+        geo_longitude = geoip_dict['geoplugin_longitude']
+        pprint.pprint(geoip_dict)
         #print(blacklists)
         
     else:
@@ -97,4 +114,9 @@ def analyze():
             asn_description=asn_description,
             asn_country_code=asn_country_code,
             blacklists=blacklists,
+            geo_continent=geo_continent,
+            geo_country=geo_country,
+            geo_city=geo_city,
+            geo_latitude=geo_latitude,
+            geo_longitude=geo_longitude,
             form=form)

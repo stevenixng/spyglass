@@ -11,7 +11,7 @@
 <table class="info">
 <tr>
     <td>IP</td>
-    <td >{{ ipaddress }}</td>
+    <td>{{ ipaddress }}</td>
 </tr>
 <tr>
     <td>ASN</td>
@@ -49,6 +49,32 @@
 </tr>
 {% endfor %}
 </table>
+
+<h1>location</h1>
+<table class="location">
+<tr>
+    <td>CONTINENT</td>
+    <td>{{ geo_continent }}</td>
+</tr>
+<tr>
+    <td>COUNTRY</td>
+    <td>{{ geo_country }}</td>
+</tr>
+<tr>
+    <td>CITY</td>
+    <td>{{ geo_city}}</td>
+</tr>
+<tr>
+    <td>LATITUDE</td>
+    <td>{{ geo_latitude}}</td>
+</tr>
+<tr>
+    <td>LONGITUDE</td>
+    <td>{{ geo_longitude}}</td>
+</tr>
+</table>
+
+
 {% include "footer.html" %}
 {% endblock %}
 
