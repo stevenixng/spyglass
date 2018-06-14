@@ -3,6 +3,7 @@ from flask_wtf import FlaskForm
 from wtforms import StringField
 from wtforms.validators import IPAddress
 from ipwhois import IPWhois
+import ipwhois
 import dns.resolver
 import pprint
 import requests
@@ -17,10 +18,13 @@ class IPAddressForm(FlaskForm):
     ipaddress = StringField('ipaddress', validators=[IPAddress(message='Sorry, not a valid IP4 Address.')])
 
 def retrieve_asn(ipaddress):
+    form = IPAddressForm()
     obj = IPWhois(ipaddress)
     results = obj.lookup_rdap()
-    #pprint.pprint(results)
+
     return results
+
+    #pprint.pprint(results)
 
 
 def get_blacklists(ipaddress):
@@ -66,8 +70,8 @@ def get_geoip(ipaddress):
 @app.route('/')
 def index():
     form = IPAddressForm()
-    form.ipaddress.data = '8.8.8.8'
-    #form.ipaddress.data = request.environ['REMOTE_ADDR']
+    #form.ipaddress.data = '8.8.8.8'
+    form.ipaddress.data = request.environ['REMOTE_ADDR']
 
     return render_template('index.html', form=form)
 
@@ -93,7 +97,12 @@ def analyze():
         flash('Not a valid IPv4 Address')
         return render_template('index.html', form=form)
 
-    asn_data = retrieve_asn(ipaddress)
+    try:
+        asn_data = retrieve_asn(ipaddress)
+    except ipwhois.exceptions.IPDefinedError:
+        flash('Reserved for private use')
+        return render_template('index.html', form=form)
+
     asn = asn_data['asn']
     asn_cidr = asn_data['asn_cidr']
     asn_description = asn_data['asn_description']
