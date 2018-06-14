@@ -45,12 +45,12 @@ def get_blacklists(ipaddress):
             query = '.'.join(reversed(str(ipaddress).split('.'))) + '.' + bl
             answers = my_resolver.query(query, 'A')
             answer_txt = my_resolver.query(query, 'TXT')
-            bl_dict[bl] = True
+            bl_dict[bl] = "Listed"
 
         except dns.resolver.NXDOMAIN:
-            bl_dict[bl] = False
+            bl_dict[bl] = "Not listed"
         except dns.resolver.NoAnswer:
-            bl_dict[bl] = False
+            bl_dict[bl] = "Not listed"
         except dns.resolver.NoNameservers as error:
             print(error)
     return bl_dict
