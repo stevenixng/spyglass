@@ -3,133 +3,88 @@
 {% block body %}
 <div class="container" style="margin-top:30px">
   <div class="row">
-    <span class="border rounded">
-      <div class="mw-100">
-        <h5 class="text-center">enter ip</h5>
-        <form action="/analyze" method="post" maxlength="15">
-        {{ form.csrf_token }}
-        {{ form.ipaddress}}
-        <input type="submit" value="Go">
+    <div class="col-lg-4 col-md-4 col-sm-12">
+      <div class="card">
+      <div class="card-header">ENTER IP</div>
+        <div class="card-body">
+          <p class="card-text">
+            <form action="/analyze" method="post" maxlength="15">
+            {{ form.csrf_token }}
+            {{ form.ipaddress}}
+            <input type="submit" value="Go">
+          </p>
+        </div>
       </div>
-    </span>
+    </div>
 
-    <span class="border mx-auto">
-      <div class="w-100">
-        <h5 class="text-center">info</h5>
-        <table class="table table-sm">
-        <tr>
-          <th scope="row"></th>
-            <td>IP</td>
-            <td>{{ ipaddress }}</td>
-        </tr>
-        <tr>
-          <th scope="row"></th>
-            <td>ASN</td>
-            <td>{{ asn }}</td>
-        </tr>
-        <tr>
-          <th scope="row"></th>
-            <td>CIDR</td>
-            <td>{{ asn_cidr }}</td>
-        </tr>
-        <tr>
-          <th scope="row"></th>
-            <td>HANDLE</td>
-            <td>{{ network_handle }}</td>
-        </tr>
-        <tr>
-          <th scope="row"></th>
-            <td>NAME</td>
-            <td>{{ network_name }}</td>
-        </tr>
-        <tr>
-          <th scope="row"></th>
-            <td>DESCRIPTION</td>
-            <td>{{ asn_description }}</td>
-        </tr>
-        <tr>
-          <th scope="row"></th>
-            <td>COUNTRY</td>
-            <td>{{ asn_country_code }}</td>
-        </tr>
-        </table>
+    <div class="col-lg-4 col-md-4 col-sm-12">
+      <div class="card">
+        <div class="card-header">INFO</div>
+        <div class="card-body">
+          <p class="card-text">
+            <ul class="list-group list-group-flush">
+              <li class="list-group-item">IP: {{ ipaddress }}</li>
+              <li class="list-group-item">ASN: {{ asn }}</li>
+              <li class="list-group-item">CIDR: {{ asn_cidr }}</li>
+              <li class="list-group-item">HANDLE: {{ network_handle }}</li>
+              <li class="list-group-item">NAME: {{ network_name }}</li>
+              <li class="list-group-item">DESCRIPTION: {{ asn_description }}</li>
+              <li class="list-group-item">COUNTRY: {{ asn_country_code }}</li>
+            </ul>
+          </p>
+        </div>
       </div>
-    </span>
+    </div>
 
-    <span class="border mx-auto">
-      <div class="mw-100">
-        <h5 class="text-center">blacklists</h5>
-        <table class="table table-sm">
+    <div class="col-lg-4 col-md-4 col-sm-12">
+      <div class="card">
+        <div class="card-header">BLACKLISTS</div>
+        <ul class="list-group">
           {% for key, value in blacklists.items() %}
-          <tr>
-            <th scope="row"></th>
-              <td class="text-right">{{ key }}</td>
-              <td class="bl_value">
-                {% if value == True %}
+            <li class="list-group-item">{{ key }}:
+            {% if value == True %}
               <span class="text-center badge badge-danger">
-                {{ value }}
-              </span>
-                {% endif %}
-                {% if value == False %}
+              {{ value }}
+              </span></li>
+            {% endif %}
+            {% if value == False %}
               <span class="text-center badge badge-success">
-                {{ value }}
-              </span>
-                {% endif %}
-            </td>
-          </tr>
+              {{ value }}
+            {% endif %}
           {% endfor %}
-        </table>
+        </ul>
       </div>
-    </span>
+    </div>
   </div>
 
   <div class="row justify-content-center">
-      <span class="border mx-auto">
-      <div class="mw-100">
-        <h5 class="text-center">location</h5>
-        <table class="table table-sm">
-        <tr>
-          <th scope="row"></th>
-            <td>CONTINENT</td>
-            <td>{{ geo_continent }}</td>
-        </tr>
-        <tr>
-          <th scope="row"></th>
-            <td>COUNTRY</td>
-            <td>{{ geo_country }}</td>
-        </tr>
-        <tr>
-          <th scope="row"></th>
-            <td>CITY</td>
-            <td>{{ geo_city}}</td>
-        </tr>
-        <tr>
-          <th scope="row"></th>
-            <td>LATITUDE</td>
-            <td>{{ geo_latitude}}</td>
-        </tr>
-        <tr>
-          <th scope="row"></th>
-            <td>LONGITUDE</td>
-            <td>{{ geo_longitude}}</td>
-        </tr>
-        </table>
+    <div class="col-lg-4 col-md-4 col-sm-12">
+      <div class="card">
+        <div class="card-header">LOCATION</div>
+        <ul class="list-group">
+          <li class="list-group-item">CONTINENT: {{ geo_continent }}</li>
+          <li class="list-group-item">COUNTRY: {{ geo_country }}</li>
+          <li class="list-group-item">CITY: {{ geo_city}}</li>
+          <li class="list-group-item">LATITUDE: {{ geo_latitude}}</li>
+          <li class="list-group-item">LONGITUDE: {{ geo_longitude}}</li>
+        </ul>
       </div>
-    </span>
+    </div>
 
-    <span class="border mx-auto">
-      <div class="w-100">
-        <iframe src="http://maps.google.com/maps?q={{ geo_latitude }}, {{ geo_longitude }}&z=10&output=embed" width="360" height="270" frameborder="0" style="border:0"></iframe>
+    <div class="col-lg-4 col-md-4 col-sm-12">
+      <div class="card">
+      <div class="card-header">MAP</div>
+        <iframe src="http://maps.google.com/maps?q={{ geo_latitude }}, {{ geo_longitude }}&z=10&output=embed"style="border:0"></iframe>
       </div>
-    </span>
+    </div>
 
-    <span class="border mx-auto">
-      <div class="mw-100">
-          <h5 class="text-center">test</h5>
-          testing
+    <div class="col-lg-4 col-md-4 col-sm-12">
+      <div class="card">
+      <div class="card-header">TEST</div>
+      <p>testing<p>
       </div>
-    </span>
-
+    </div>
+  </div>
 
 {% include "footer.html" %}
 {% endblock %}
