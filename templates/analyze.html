@@ -11,7 +11,7 @@
                         <p class="card-text text-center">
                             <form action="/analyze" method="post" maxlength="15">
                             {{ form.csrf_token }}
-                            {{ form.ipaddress}}
+                            {{ form.ipaddress(autofocus=true, required=true) }}
                             <input type="submit" value="Go">
                         </p>
                     </div>

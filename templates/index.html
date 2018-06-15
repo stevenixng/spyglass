@@ -6,7 +6,7 @@
         <form action="/analyze" method="post" maxlength="15">
           <label for="enteripaddress">enter ip address</label>
             {{ form.csrf_token }}
-            {{ form.ipaddress}}
+            {{ form.ipaddress(autofocus=true, required=true) }}
           <input type="submit" value="Go">
         </form>
       </div>
