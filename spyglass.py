@@ -88,9 +88,8 @@ def analyze():
     try:
         asn_data = retrieve_asn(ipaddress)
     except Exception as e:
-        flash(e)
-        return render_template('index.html', form=form)
-        #return redirect(url_for('index'))
+        flash(unicode(e))
+        return redirect(url_for('index'))
 
     asn = asn_data['asn']
     asn_cidr = asn_data['asn_cidr']
