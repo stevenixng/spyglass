@@ -1,4 +1,4 @@
-from flask import Flask, flash, render_template, url_for, request, jsonify
+from flask import Flask, flash, render_template, url_for, request, jsonify, redirect
 from flask_wtf import FlaskForm
 from wtforms import StringField
 from wtforms.validators import IPAddress
@@ -83,26 +83,14 @@ def about():
 @app.route('/analyze', methods=['GET', 'POST'])
 def analyze():
     form = IPAddressForm(request.form)
-    ipaddress = ''
-
-    if form.is_submitted():
-        print "submitted"
-
-    if form.validate():
-        print "valid"
-
-    if form.validate_on_submit():
-        #flash("IP is valid")
-        ipaddress = form.ipaddress.data
-    else:
-        flash('Not a valid IPv4 Address')
-        return render_template('index.html', form=form)
+    ipaddress = form.ipaddress.data
 
     try:
         asn_data = retrieve_asn(ipaddress)
-    except ipwhois.exceptions.IPDefinedError:
-        flash('Reserved for private use')
+    except Exception as e:
+        flash(e)
         return render_template('index.html', form=form)
+        #return redirect(url_for('index'))
 
     asn = asn_data['asn']
     asn_cidr = asn_data['asn_cidr']
