@@ -8,15 +8,16 @@
                 <div class="card">
                     <div class="card-header">ENTER IP</div>
                     <div class="card-body">
-            <p class="card-text text-center">
-              <form action="/analyze" method="post" maxlength="15">
-              {{ form.csrf_token }}
-              {{ form.ipaddress}}
-              <input type="submit" value="Go">
-            </p>
-          </div>
+                        <p class="card-text text-center">
+                            <form action="/analyze" method="post" maxlength="15">
+                            {{ form.csrf_token }}
+                            {{ form.ipaddress}}
+                            <input type="submit" value="Go">
+                        </p>
                     </div>
-            </div>
+                    </div>
+                </div>
+
             <div class="col-md-6">
                 <div class="card">
                     <div class="card-header">MAP</div>
@@ -24,55 +25,59 @@
                 </div>
             </div>
         </div>
+
         <div class="row">
             <div class="col-md-6">
                 <div class="card">
                     <div class="card-header">INFO</div>
-                                <ul class="list-group list-group-flush">
-              <li class="list-group-item">CONTINENT: {{ geo_continent }}</li>
-              <li class="list-group-item">COUNTRY: {{ geo_country }}</li>
-              <li class="list-group-item">CITY: {{ geo_city}}</li>
-              <li class="list-group-item">LATITUDE: {{ geo_latitude}}</li>
-              <li class="list-group-item">LONGITUDE: {{ geo_longitude}}</li>
-              <li class="list-group-item"><a href="http://www.geoplugin.com/geolocation/" target="_new">IP Geolocation</a> by <a href="http://www.geoplugin.com/" target="_new">geoPlugin</a></li>
-            </ul>
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item">CONTINENT: {{ geo_continent }}</li>
+                            <li class="list-group-item">COUNTRY: {{ geo_country }}</li>
+                            <li class="list-group-item">CITY: {{ geo_city}}</li>
+                            <li class="list-group-item">LATITUDE: {{ geo_latitude}}</li>
+                            <li class="list-group-item">LONGITUDE: {{ geo_longitude}}</li>
+                            <li class="list-group-item"><a href="http://www.geoplugin.com/geolocation/" target="_new">IP Geolocation</a> by <a href="http://www.geoplugin.com/" target="_new">geoPlugin</a></li>
+                        </ul>
                 </div>
             </div>
+
             <div class="col-md-6">
                 <div class="card">
                     <div class="card-header">LOCATION</div>
                     <ul class="list-group list-group-flush">
-              <li class="list-group-item">IP: {{ ipaddress }}</li>
-              <li class="list-group-item">ASN: {{ asn }}</li>
-              <li class="list-group-item">CIDR: {{ asn_cidr }}</li>
-              <li class="list-group-item">HANDLE: {{ network_handle }}</li>
-              <li class="list-group-item">NAME: {{ network_name }}</li>
-              <li class="list-group-item">DESCRIPTION: {{ asn_description }}</li>
-              <li class="list-group-item">COUNTRY: {{ asn_country_code }}</li>
-            </ul>
+                        <li class="list-group-item">IP: {{ ipaddress }}</li>
+                        <li class="list-group-item">ASN: {{ asn }}</li>
+                        <li class="list-group-item">CIDR: {{ asn_cidr }}</li>
+                        <li class="list-group-item">HANDLE: {{ network_handle }}</li>
+                        <li class="list-group-item">NAME: {{ network_name }}</li>
+                        <li class="list-group-item">DESCRIPTION: {{ asn_description }}</li>
+                        <li class="list-group-item">COUNTRY: {{ asn_country_code }}</li>
+                     </ul>
                 </div>
             </div>
         </div>
     </div>
+
     <div class="col-md-4">
-    <div class="card"> <!-- card -->
-    <div class="card-header">BLACKLISTS</div>
-      <ul class="list-group list-group-flush">
-        {% for key, value in blacklists.items() %}
-        <li class="list-group-item d-flex justify-content-between align-items-center">{{ key }}:
-        {% if value == "Listed" %}
-        <span class="text-center badge badge-danger">
-          {{ value }}
-        </span></li>
-        {% endif %}
-        {% if value == "Not listed" %}
-        <span class="text-center badge badge-success">
-          {{ value }}
-        {% endif %}
-        {% endfor %}
-      </ul>
-    </div>
+        <div class="card"> <!-- card -->
+        <div class="card-header">BLACKLISTS</div>
+            <ul class="list-group list-group-flush">
+                {% for key, value in blacklists.items() %}
+                    <li class="list-group-item d-flex justify-content-between align-items-center">{{ key }}:
+                {% if value == "Listed" %}
+                    <span class="text-center badge badge-danger">
+                {{ value }}
+                    </span></li>
+                {% endif %}
+                {% if value == "Not listed" %}
+                    <span class="text-center badge badge-success">
+                {{ value }}
+                {% endif %}
+                {% endfor %}
+            </ul>
+        </div>
     </div> <!-- card -->
 </div>
+
 {% include "footer.html" %}
 {% endblock %}
