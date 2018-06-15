@@ -136,8 +136,8 @@ def api(ipaddress):
     try:
         whois = retrieve_asn(ipaddress)
     except Exception as e:
-        flash(e)
-        return render_template('index.html', form=form)
+        flash(unicode(e))
+        return redirect(url_for('api_page'))
 
     blacklists = get_blacklists(ipaddress)
     data = whois.copy()   # start with x's keys and values
