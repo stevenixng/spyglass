@@ -14,6 +14,8 @@ app = Flask(__name__)
 
 app.secret_key = b'_5#y2L"F4Q8z\n\xec]/'
 
+
+
 class IPAddressForm(FlaskForm):
     ipaddress = StringField('ipaddress', validators=[IPAddress(message='Sorry, not a valid IP4 Address.')])
 
@@ -21,10 +23,10 @@ def retrieve_asn(ipaddress):
     form = IPAddressForm()
     obj = IPWhois(ipaddress)
     results = obj.lookup_rdap()
+    #pprint.pprint(results)
 
     return results
 
-    #pprint.pprint(results)
 
 
 def get_blacklists(ipaddress):
@@ -73,6 +75,7 @@ def index():
     #form.ipaddress.data = '8.8.8.8'
     form.ipaddress.data = request.environ['REMOTE_ADDR']
 
+    url_for('static', filename='custom.css')
     return render_template('index.html', form=form)
 
 @app.route('/about')
