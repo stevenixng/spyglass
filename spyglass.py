@@ -1,4 +1,4 @@
-from flask import Flask, flash, render_template, url_for, request
+from flask import Flask, flash, render_template, url_for, request, jsonify
 from flask_wtf import FlaskForm
 from wtforms import StringField
 from wtforms.validators import IPAddress
@@ -135,6 +135,28 @@ def analyze():
             geo_latitude=geo_latitude,
             geo_longitude=geo_longitude,
             form=form)
+
+
+@app.route('/api/')
+def api_page():
+    return render_template('api.html')
+
+
+@app.route('/api/<ipaddress>')
+def api(ipaddress):
+    whois = ''
+    form = IPAddressForm(request.form)
+    try:
+        whois = retrieve_asn(ipaddress)
+    except Exception as e:
+        flash(e)
+        return render_template('index.html', form=form)
+
+    blacklists = get_blacklists(ipaddress)
+    data = whois.copy()   # start with x's keys and values
+    #data = whois.update(blacklists)    # modifies z with y's keys and values & returns None
+    data = (whois, blacklists)
+    return jsonify(data)
 
 @app.errorhandler(404)
 def page_not_found(error):
