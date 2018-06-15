@@ -10,9 +10,9 @@ setup
 
 `$ virtualenv venv`
 
-`$ pip install -r requirements.txt`
-
 `$ source venv/bin/activate`
+
+`$ pip install -r requirements.txt`
 
 `$ export FLASK_APP=spyglass.py`
 
