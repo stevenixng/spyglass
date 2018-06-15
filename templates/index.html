@@ -2,15 +2,19 @@
 {% block body %}
   <div class="container" style="margin-top:30px">
     <div class="row justify-content-center">
-      <div class="col-3 text-center">
-        <form action="/analyze" method="post" maxlength="15">
-          <label for="enteripaddress">enter ip address</label>
-            {{ form.csrf_token }}
-            {{ form.ipaddress(autofocus=true, required=true) }}
-          <input type="submit" value="Go">
-        </form>
-      </div>
-    </div>
+<div class="col-md-6">
+                <div class="card">
+                    <div class="card-header">ENTER IP</div>
+                    <div class="card-body">
+                        <p class="card-text text-center">
+                            <form action="/analyze" method="post" maxlength="15">
+                            {{ form.csrf_token }}
+                            {{ form.ipaddress(autofocus=true, required=true) }}
+                            <input type="submit" value="Go">
+                        </p>
+                    </div>
+                    </div>
+                </div>
   </div>
 {% include "footer.html" %}
 {% endblock %}
