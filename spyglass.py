@@ -38,11 +38,10 @@ def get_blacklists(ipaddress):
                'ix.dnsbl.manitu.net',
                'dnsbl.sorbs.net',
                'bl.spamcop.net',
-               'xbl.spamhaus.org',
-               'pbl.spamhaus.org',
                'dnsbl-1.uceprotect.net',
                'dnsbl-2.uceprotect.net',
                'dnsbl-3.uceprotect.net',
+               'psbl.surriel.com',
                'db.wpbl.info']
     bl_dict = {}
     for bl in bl_list:
