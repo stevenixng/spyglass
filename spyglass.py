@@ -72,7 +72,7 @@ def get_geoip(ipaddress):
 def index():
     form = IPAddressForm()
     #form.ipaddress.data = '8.8.8.8'
-    form.ipaddress.data = request.environ['REMOTE_ADDR']
+    form.ipaddress.data = request.environ.get('HTTP_X_REAL_IP', request.remote_addr)
 
     return render_template('index.html', form=form)
 
