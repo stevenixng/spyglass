@@ -5,14 +5,15 @@
     <div class="col-md-8">
         <div class="row mb-4">
             <div class="col-md-6" style="margin-top:30px">
-                <div class="card">
+                <div class="card text-center">
                     <div class="card-header">ENTER IP</div>
                     <div class="card-body">
                         <p class="card-text text-center">
                             <form action="/analyze" method="post" maxlength="15">
                             {{ form.csrf_token }}
                             {{ form.ipaddress(autofocus=true, required=true) }}
-                            <input type="submit" value="Go">
+                            <small id="ipaddresshelp" class="form-text text-muted">Enter the IP address you would like information on.</small>
+                            <button type="submit" class="btn btn-primary">Submit</button>
                         </p>
                     </div>
                     </div>
