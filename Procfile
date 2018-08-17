@@ -1,1 +1,1 @@
-web: gunicorn app:spyglass
+web: gunicorn app:spyglass2
