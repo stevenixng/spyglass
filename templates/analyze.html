@@ -22,7 +22,16 @@
             <div class="col-md-6" style="margin-top:30px">
                 <div class="card">
                     <div class="card-header">MAP</div>
-                    <iframe src="http://maps.google.com/maps?q={{ geo_latitude }}, {{ geo_longitude }}&z=10&output=embed"style="border:0"></iframe>
+                    <div id="mapid"></div>
+<script>
+var mymap = L.map('mapid').setView([{{ geo_latitude }}, {{ geo_longitude }}], 7);
+L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
+    attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+    maxZoom: 18,
+    id: 'mapbox.streets-basic',
+    accessToken: 'pk.eyJ1Ijoic3RldmVuaXgiLCJhIjoiY2preTZocDVlMGc0azNwcGdtOTN6Y2tnOSJ9.-GwOIURa0yjA7X9x2K1JTQ'
+}).addTo(mymap);
+</script>
                 </div>
             </div>
         </div>
