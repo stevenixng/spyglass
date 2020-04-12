@@ -127,7 +127,7 @@ def analyze():
 
 @app.route('/api/')
 def api_page():
-    user_ipaddress = request.environ.get('HTTP_X_REAL_IP', request.remote_addr)
+    user_ipaddress = request.environ.get('HTTP_X_FORWARDED_FOR', request.remote_addr)
     return render_template('api.html', user_ipaddress=user_ipaddress)
 
 
