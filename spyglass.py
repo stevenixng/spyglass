@@ -20,6 +20,7 @@ class IPAddressForm(FlaskForm):
 
 
 def retrieve_asn(ipaddress):
+    print("getting asn")
     form = IPAddressForm()
     obj = IPWhois(ipaddress)
     results = obj.lookup_rdap()
@@ -29,6 +30,7 @@ def retrieve_asn(ipaddress):
 
 
 def get_blacklists(ipaddress):
+    print("getting blacklist")
     bl_list = ['zen.spamhaus.org',
                'spam.abuse.ch',
                'cbl.abuseat.org',
@@ -45,6 +47,7 @@ def get_blacklists(ipaddress):
     bl_dict = {}
     for bl in bl_list:
         try:
+            print(f'pulling: {bl}')
             my_resolver = dns.resolver.Resolver()
             query = '.'.join(reversed(str(ipaddress).split('.'))) + '.' + bl
             answers = my_resolver.query(query, 'A')
@@ -61,8 +64,10 @@ def get_blacklists(ipaddress):
 
 
 def get_geoip(ipaddress):
+    print("getting geoip")
     url = 'http://www.geoplugin.net/json.gp?ip=' + ipaddress
-    response = requests.request('GET', url)
+    #response = requests.request('GET', url)
+    response = requests.get(url)
 
     return response.json()
 
