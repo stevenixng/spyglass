@@ -3,6 +3,7 @@ from flask_wtf import FlaskForm
 from wtforms import StringField
 from wtforms.validators import IPAddress
 from ipwhois import IPWhois
+from concurrent.futures import ThreadPoolExecutor
 import ipwhois
 import dns.resolver
 import pprint
@@ -44,23 +45,36 @@ def get_blacklists(ipaddress):
                'dnsbl-3.uceprotect.net',
                'psbl.surriel.com',
                'db.wpbl.info']
-    bl_dict = {}
-    for bl in bl_list:
-        try:
-            print(f'pulling: {bl}')
-            my_resolver = dns.resolver.Resolver()
-            query = '.'.join(reversed(str(ipaddress).split('.'))) + '.' + bl
-            answers = my_resolver.query(query, 'A')
-            answer_txt = my_resolver.query(query, 'TXT')
-            bl_dict[bl] = "Listed"
+    with ThreadPoolExecutor(max_workers=13) as executor:
+        results = []
+        for bl in bl_list:
+            results.append(executor.submit(blquery, ipaddress, bl))
 
-        except dns.resolver.NXDOMAIN:
-            bl_dict[bl] = "Not listed"
-        except dns.resolver.NoAnswer:
-            bl_dict[bl] = "Not listed"
-        except dns.resolver.NoNameservers as error:
-            print(error)
+        bl_dict = {}
+        for r in results:
+            bl_dict.update(r.result())
+        print(bl_dict)
+
     return bl_dict
+
+
+def blquery(ipaddress, bl):
+    try:
+        print(f'pulling: {bl}')
+        my_resolver = dns.resolver.Resolver()
+        query = '.'.join(reversed(str(ipaddress).split('.'))) + '.' + bl
+        answers = my_resolver.query(query, 'A')
+        answer_txt = my_resolver.query(query, 'TXT')
+        listed = "Listed"
+
+    except dns.resolver.NXDOMAIN:
+        listed = "Not listed"
+    except dns.resolver.NoAnswer:
+        listed = "Not listed"
+    except dns.resolver.NoNameservers as error:
+        print(error)
+
+    return {bl: listed}
 
 
 def get_geoip(ipaddress):
