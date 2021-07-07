@@ -15,9 +15,9 @@ app = Flask(__name__, static_folder='static', static_url_path='')
 app.secret_key = b'_5#y2L"F4Q8z\n\xec]/'
 
 
-
 class IPAddressForm(FlaskForm):
     ipaddress = StringField('ipaddress', validators=[IPAddress(message='Sorry, not a valid IP4 Address.')])
+
 
 def retrieve_asn(ipaddress):
     form = IPAddressForm()
@@ -26,7 +26,6 @@ def retrieve_asn(ipaddress):
     #pprint.pprint(results)
 
     return results
-
 
 
 def get_blacklists(ipaddress):
@@ -64,7 +63,7 @@ def get_blacklists(ipaddress):
 def get_geoip(ipaddress):
     url = 'http://www.geoplugin.net/json.gp?ip=' + ipaddress
     response = requests.request('GET', url)
-    
+
     return response.json()
 
 
@@ -77,9 +76,11 @@ def index():
 
     return render_template('index.html', form=form)
 
+
 @app.route('/about')
 def about():
     return render_template('about.html')
+
 
 @app.route('/analyze', methods=['GET', 'POST'])
 def analyze():
@@ -89,7 +90,7 @@ def analyze():
     try:
         asn_data = retrieve_asn(ipaddress)
     except Exception as e:
-        flash(unicode(e))
+        flash(e)
         return redirect(url_for('index'))
 
     asn = asn_data['asn']
@@ -109,20 +110,20 @@ def analyze():
     #print(blacklists)
 
     return render_template('analyze.html',
-            ipaddress=ipaddress,
-            asn=asn,
-            asn_cidr=asn_cidr,
-            network_handle=network_handle,
-            network_name=network_name,
-            asn_description=asn_description,
-            asn_country_code=asn_country_code,
-            blacklists=blacklists,
-            geo_continent=geo_continent,
-            geo_country=geo_country,
-            geo_city=geo_city,
-            geo_latitude=geo_latitude,
-            geo_longitude=geo_longitude,
-            form=form)
+                           ipaddress=ipaddress,
+                           asn=asn,
+                           asn_cidr=asn_cidr,
+                           network_handle=network_handle,
+                           network_name=network_name,
+                           asn_description=asn_description,
+                           asn_country_code=asn_country_code,
+                           blacklists=blacklists,
+                           geo_continent=geo_continent,
+                           geo_country=geo_country,
+                           geo_city=geo_city,
+                           geo_latitude=geo_latitude,
+                           geo_longitude=geo_longitude,
+                           form=form)
 
 
 @app.route('/api/')
@@ -138,7 +139,7 @@ def api(ipaddress):
     try:
         whois = retrieve_asn(ipaddress)
     except Exception as e:
-        flash(unicode(e))
+        flash(e)
         return redirect(url_for('api_page'))
 
     blacklists = get_blacklists(ipaddress)
@@ -146,6 +147,7 @@ def api(ipaddress):
     #data = whois.update(blacklists)    # modifies z with y's keys and values & returns None
     data = (whois, blacklists)
     return jsonify(data)
+
 
 @app.errorhandler(404)
 def page_not_found(error):
