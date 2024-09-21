@@ -4,6 +4,7 @@ from wtforms import StringField
 from wtforms.validators import IPAddress
 from ipwhois import IPWhois
 from concurrent.futures import ThreadPoolExecutor
+import ipaddress
 import ipwhois
 import dns.resolver
 import pprint
@@ -23,7 +24,10 @@ class IPAddressForm(FlaskForm):
 def retrieve_asn(ipaddress):
     print("getting asn")
     form = IPAddressForm()
+
+    print("getting object")
     obj = IPWhois(ipaddress)
+
     results = obj.lookup_rdap()
     #pprint.pprint(results)
 
@@ -53,7 +57,7 @@ def get_blacklists(ipaddress):
         bl_dict = {}
         for r in results:
             bl_dict.update(r.result())
-        print(bl_dict)
+        #print(bl_dict)
 
     return bl_dict
 
@@ -89,8 +93,7 @@ def get_geoip(ipaddress):
 @app.route('/')
 def index():
     form = IPAddressForm()
-    #form.ipaddress.data = '8.8.8.8'
-    #form.ipaddress.data = request.environ.get('HTTP_X_REAL_IP', request.remote_addr)
+    # prefil the form with detected IP.
     form.ipaddress.data = request.environ.get('HTTP_X_FORWARDED_FOR', request.remote_addr)
 
     return render_template('index.html', form=form)
@@ -104,13 +107,20 @@ def about():
 @app.route('/analyze', methods=['GET', 'POST'])
 def analyze():
     form = IPAddressForm(request.form)
-    ipaddress = form.ipaddress.data
-
     try:
-        asn_data = retrieve_asn(ipaddress)
+        ipa = form.ipaddress.data
     except Exception as e:
         flash(e)
         return redirect(url_for('index'))
+    try:
+        if ipaddress.ip_address(ipa).is_private:
+            flash('IP address is private. Please input a public IP.')
+            return redirect(url_for('index'))
+    except Exception as e:
+        flash(str(e))
+        return redirect(url_for('index'))
+
+    asn_data = retrieve_asn(ipa)
 
     asn = asn_data['asn']
     asn_cidr = asn_data['asn_cidr']
@@ -118,8 +128,8 @@ def analyze():
     network_handle = asn_data['network']['handle']
     network_name = asn_data['network']['name']
     asn_country_code = asn_data['asn_country_code']
-    blacklists = get_blacklists(ipaddress)
-    geoip_dict = get_geoip(ipaddress)
+    blacklists = get_blacklists(ipa)
+    geoip_dict = get_geoip(ipa)
     geo_continent = geoip_dict['geoplugin_continentName']
     geo_country = geoip_dict['geoplugin_countryName']
     geo_city = geoip_dict['geoplugin_city']
@@ -129,7 +139,7 @@ def analyze():
     #print(blacklists)
 
     return render_template('analyze.html',
-                           ipaddress=ipaddress,
+                           ipaddress=ipa,
                            asn=asn,
                            asn_cidr=asn_cidr,
                            network_handle=network_handle,
