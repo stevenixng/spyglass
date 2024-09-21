@@ -24,12 +24,8 @@ class IPAddressForm(FlaskForm):
 def retrieve_asn(ipaddress):
     print("getting asn")
     form = IPAddressForm()
-
-    print("getting object")
     obj = IPWhois(ipaddress)
-
     results = obj.lookup_rdap()
-    #pprint.pprint(results)
 
     return results
 
@@ -57,7 +53,6 @@ def get_blacklists(ipaddress):
         bl_dict = {}
         for r in results:
             bl_dict.update(r.result())
-        #print(bl_dict)
 
     return bl_dict
 
@@ -84,7 +79,6 @@ def blquery(ipaddress, bl):
 def get_geoip(ipaddress):
     print("getting geoip")
     url = 'http://www.geoplugin.net/json.gp?ip=' + ipaddress
-    #response = requests.request('GET', url)
     response = requests.get(url)
 
     return response.json()
@@ -135,8 +129,6 @@ def analyze():
     geo_city = geoip_dict['geoplugin_city']
     geo_latitude = geoip_dict['geoplugin_latitude']
     geo_longitude = geoip_dict['geoplugin_longitude']
-    #pprint.pprint(geoip_dict)
-    #print(blacklists)
 
     return render_template('analyze.html',
                            ipaddress=ipa,
