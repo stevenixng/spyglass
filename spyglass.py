@@ -104,7 +104,7 @@ def analyze():
     try:
         ipa = form.ipaddress.data
     except Exception as e:
-        flash(e)
+        flash(str(e))
         return redirect(url_for('index'))
     try:
         if ipaddress.ip_address(ipa).is_private:
@@ -160,7 +160,7 @@ def api(ipaddress):
     try:
         whois = retrieve_asn(ipaddress)
     except Exception as e:
-        flash(e)
+        flash(str(e))
         return redirect(url_for('api_page'))
 
     blacklists = get_blacklists(ipaddress)
