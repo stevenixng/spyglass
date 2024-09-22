@@ -7,7 +7,6 @@ set -o pipefail
 docker run \
     --rm \
     --interactive \
-    --tty \
     --publish 8080:5000 /tcp \
     --name spyglass \
-    spyglass:latest
+    spyglass
