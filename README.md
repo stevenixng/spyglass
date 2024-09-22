@@ -18,6 +18,6 @@ Build docker image
 
     docker build -t spyglass .
 
-Run in docker
+Run in docker temporarily. Destroy the container when done.
 
     docker run --rm -it -p 8080:5000 --name spyglass-frontend spyglass
