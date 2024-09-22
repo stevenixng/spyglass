@@ -7,6 +7,7 @@ set -o pipefail
 docker run \
     --rm \
     --interactive \
-    --publish 8080:5000 /tcp \
+    --tty \
+    --publish 8080:5000 \
     --name spyglass \
     spyglass
