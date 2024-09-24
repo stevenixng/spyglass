@@ -41,7 +41,7 @@ L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_toke
         <div class="row">
             <div class="col-md-6" style="margin-top:30px">
                 <div class="card">
-                    <div class="card-header">INFO</div>
+                    <div class="card-header">GEOIP</div>
                         <ul class="list-group list-group-flush">
                             <li class="list-group-item">CONTINENT: {{ geo_continent }}</li>
                             <li class="list-group-item">COUNTRY: {{ geo_country }}</li>
@@ -55,9 +55,10 @@ L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_toke
 
             <div class="col-md-6" style="margin-top:30px">
                 <div class="card">
-                    <div class="card-header">LOCATION</div>
+                    <div class="card-header">INFO</div>
                     <ul class="list-group list-group-flush">
                         <li class="list-group-item">IP: {{ ipaddress }}</li>
+                        <li class="list-group-item">RDNS: {{ rdns }}</li>
                         <li class="list-group-item">ASN: {{ asn }}</li>
                         <li class="list-group-item">CIDR: {{ asn_cidr }}</li>
                         <li class="list-group-item">HANDLE: {{ network_handle }}</li>

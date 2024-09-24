@@ -5,6 +5,7 @@ from wtforms.validators import IPAddress
 from ipwhois import IPWhois
 from concurrent.futures import ThreadPoolExecutor
 import ipaddress
+import socket
 import ipwhois
 import dns.resolver
 import pprint
@@ -28,6 +29,15 @@ def retrieve_asn(ipaddress):
     results = obj.lookup_rdap()
 
     return results
+
+
+def reverse_lookup(ip):
+    print("performing reverse lookup")
+    try:
+        domain = socket.gethostbyaddr(ip)[0]
+        return domain
+    except socket.herror:
+        return None
 
 
 def get_blacklists(ipaddress):
@@ -115,6 +125,7 @@ def analyze():
         return redirect(url_for('index'))
 
     asn_data = retrieve_asn(ipa)
+    rdns = reverse_lookup(ipa)
 
     asn = asn_data['asn']
     asn_cidr = asn_data['asn_cidr']
@@ -132,6 +143,7 @@ def analyze():
 
     return render_template('analyze.html',
                            ipaddress=ipa,
+                           rdns=rdns,
                            asn=asn,
                            asn_cidr=asn_cidr,
                            network_handle=network_handle,
